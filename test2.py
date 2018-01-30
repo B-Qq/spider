@@ -13,7 +13,6 @@ import tkinter.messagebox
 import time,threading
 from bs4 import BeautifulSoup
 from queue import Queue
-from multiprocessing import Process
 import os
 
 #全局变量
@@ -141,18 +140,23 @@ def get_item(url):
         download(title_q.get(),comment_count_q.get(),news_url_q.get())
         time.sleep(2)
 
+
+def thread_it(func):
+	t = threading.Thread(target=func)
+	t.setDaemon(True)
+	t.start()
+	
 #供开始按钮调用
 def show():
     global var
     global Run_flag
+    global p
     Run_flag = True
     if var != "":
         print('----------------开始爬取文章-------------------')
-        t1 = threading.Thread(target=start_spider(),name='start_spider')
-        t1.start()
+        start_spider()
     else:
         tkinter.messagebox.showerror(title='错误',message='请输入要爬取内容的评论数,并点击确认')
-
 
 #供停止按钮调用
 def stop():
@@ -201,6 +205,7 @@ def start_spider():
     tkinter.messagebox.showinfo(title='完成',message='停止爬取数据，文件存储在'+path+'中,点击\' OK \'退出')
     exit()
 
+
 #获取输入的爬去评论数
 def get_str():
     global var
@@ -230,12 +235,14 @@ def tkin_show():
     en = tk.Entry(top,width=9,bg='LightSkyBlue')
     en.grid(row=1,column=2,sticky = 'E')
     tk.Button(top,text='确定',command=get_str,width=7).grid(row=2,column=2,sticky='E')
-    tk.Button(top,text='开始',command = show,width = 40,bg='blue').grid(row=4,column=0,columnspan=3,sticky='SE')
+    tk.Button(top,text='开始',command = lambda:thread_it(show),width = 40,bg='blue').grid(row=4,column=0,columnspan=3,sticky='SE')
     tk.Button(top,text='停止',command = stop,width = 40,bg='blue').grid(row=5,column=0,columnspan=3,sticky='SE')
 
     top.mainloop()
 
+
 if __name__ == '__main__':
+    '''
     t = threading.Thread(target=tkin_show(),name='tkin_show')
     t.start()
     t.join()
@@ -243,6 +250,7 @@ if __name__ == '__main__':
         {
 
         }
-    #start_spider()
-
-
+    #t1 = threading.Thread(target=start_spider,name='start_spider')
+    #t1.start()
+    '''
+    tkin_show()
