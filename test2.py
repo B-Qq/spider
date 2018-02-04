@@ -36,7 +36,7 @@ def get_url(max_behot_time, AS, CP):
           '&tadrequire=true' \
           '&as={1}' \
           '&cp={2}' \
-          '&_signature=nuE3NAAAxJwzC2m1mvezbZ7hNy'.format(max_behot_time, AS, CP)
+          '&_signature=5J56uRAfvvRJdCQ4BaKZ5eSeeq'.format(max_behot_time, AS, CP)
     return url
 
 
@@ -112,7 +112,7 @@ def download(title,comment_count, news_url):
 def get_item(url):
     global  var
     header ={"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"}
-    cookies = {'tt_webid':'6504211651658139150'}
+    cookies = {'tt_webid':'6504212863153636877'}
     wbdata = requests.get(url, cookies=cookies,headers=header)
     wbdata2 = json.loads(wbdata.text)
     print("返回的json:",wbdata2)
